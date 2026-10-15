@@ -1,5 +1,7 @@
 # Xylo 本地知识库
 
+[English](README.en.md)
+
 基于 React、TypeScript 和 Vite 的 Chrome / Edge Manifest V3 扩展。文档和粘贴图片直接保存在用户授权的本地知识库目录，不依赖 Web 服务、数据库或源码目录。
 
 项目名为 `xylo-knowledge-base`，以 Markdown 编辑和阅读为核心，提供文件整理与多类型预览。知识库是授权的本地目录，工作区是文件树与编辑器组成的操作界面。现有源码磁盘路径可继续保留，避免改变未打包扩展的加载路径和扩展 ID。
