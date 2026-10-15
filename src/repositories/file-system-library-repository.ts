@@ -34,10 +34,16 @@ function parseMarkdown(source: string): ParsedMarkdown {
     return { frontMatter: {}, content: normalized };
   }
 
-  return {
-    frontMatter: (parse(match[1]) as DocumentFrontMatter | null) || {},
-    content: normalized.slice(match[0].length),
-  };
+  try {
+    const frontMatter = parse(match[1]) ?? {};
+    if (typeof frontMatter === "object" && !Array.isArray(frontMatter)) {
+      return { frontMatter, content: normalized.slice(match[0].length) };
+    }
+  } catch {
+    // Keep invalid metadata in the body so loading and editing cannot discard it.
+  }
+
+  return { frontMatter: {}, content: normalized };
 }
 
 function serializeMarkdown(

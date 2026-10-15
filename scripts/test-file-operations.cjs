@@ -91,8 +91,38 @@ async function run() {
   const exists = async (target) => fs.access(target).then(() => true, () => false);
   try {
     await fs.mkdir(docs);
-    const { FileSystemLibraryRepository } = await loadSource("src/repositories/file-system-library-repository.ts");
+    const { FileSystemLibraryRepository, markdownFile } = await loadSource("src/repositories/file-system-library-repository.ts");
     process.chdir(originalCwd);
+
+    const invalidMarkdown = "---\ndescription: @twit-process/core\n---\n# Original note\n";
+    for (const source of [invalidMarkdown, "---\ntags: [unfinished\n---\nBody", "---\nplain text\n---\nBody", "---\n- item\n---\nBody"]) {
+      assert.deepEqual(markdownFile.parse(source), { frontMatter: {}, content: source });
+      assert.deepEqual(markdownFile.parse(markdownFile.serialize(source, { title: "Note" })), {
+        frontMatter: { title: "Note" }, content: source,
+      });
+    }
+    assert.deepEqual(markdownFile.parse('\uFEFF---\r\ntitle: Note\r\ndescription: "@twit-process/core"\r\n---\r\nBody'), {
+      frontMatter: { title: "Note", description: "@twit-process/core" }, content: "Body",
+    });
+    assert.deepEqual(markdownFile.parse("---\n\n---\nBody"), { frontMatter: {}, content: "Body" });
+
+    const mixedRoot = path.join(fixture, "mixed-library");
+    await fs.mkdir(path.join(mixedRoot, "notes"), { recursive: true });
+    await fs.writeFile(path.join(mixedRoot, "notes/broken.md"), invalidMarkdown);
+    await fs.writeFile(path.join(mixedRoot, "valid.md"), "---\ntitle: Valid\n---\nValid body");
+    const mixed = new FileSystemLibraryRepository(new DirectoryHandle(mixedRoot), "mixed-fixture");
+    const [mixedDocuments, mixedFolders] = await Promise.all([mixed.list(), mixed.listFolders()]);
+    assert.equal(mixedDocuments.length, 2);
+    assert.deepEqual(mixedFolders, ["notes"]);
+    assert.equal(mixedDocuments.find((document) => document.path === "valid.md").title, "Valid");
+    const broken = await mixed.get("notes/broken");
+    assert.equal(broken.content, invalidMarkdown);
+    assert.deepEqual(broken.frontMatter, {});
+    assert.equal(await fs.readFile(path.join(mixedRoot, "notes/broken.md"), "utf8"), invalidMarkdown);
+    const saved = await mixed.update(broken.id, { title: "broken", content: `${broken.content}Edited`, frontMatter: broken.frontMatter });
+    assert.equal((await mixed.get(saved.id)).content, `${invalidMarkdown}Edited`);
+    assert.ok((await fs.readFile(path.join(mixedRoot, "notes/broken.md"), "utf8")).includes(invalidMarkdown));
+    console.log("PASS: malformed front matter fallback, valid metadata, mixed-directory loading, lossless editing");
 
     const failure = { enabled: false };
     const repository = new FileSystemLibraryRepository(new DirectoryHandle(fixture, failure), "fixture", "docs");
