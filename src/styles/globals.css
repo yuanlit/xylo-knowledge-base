@@ -1,0 +1,232 @@
+@import "tailwindcss" source(none);
+@import "./workspace-chrome.css";
+@source "../";
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+}
+
+body,
+html {
+  height: 100%;
+  overflow: hidden;
+}
+
+/* 确保主容器占满全屏 */
+main {
+  width: 100vw;
+  height: 100vh;
+  position: relative;
+  overflow: hidden;
+}
+
+/* 确保暗黑模式下输入框文字为白色 */
+.dark input[type="text"],
+[data-color-mode="dark"] input[type="text"] {
+  color: #ffffff !important;
+}
+
+.dark input[type="text"]::placeholder,
+[data-color-mode="dark"] input[type="text"]::placeholder {
+  color: #9ca3af !important; /* gray-400 */
+}
+
+/* MDEditor 暗黑模式背景色 - 统一使用深蓝灰色系 */
+[data-color-mode="dark"] .w-md-editor,
+.dark .w-md-editor {
+  background-color: #0f172a !important; /* slate-900 */
+}
+
+[data-color-mode="dark"] .w-md-editor-text,
+.dark .w-md-editor-text {
+  background-color: #0f172a !important; /* slate-900 */
+}
+
+[data-color-mode="dark"] .w-md-editor-text-pre,
+.dark .w-md-editor-text-pre {
+  background-color: #0f172a !important; /* slate-900 */
+}
+
+[data-color-mode="dark"] .w-md-editor-text-pre textarea,
+.dark .w-md-editor-text-pre textarea {
+  background-color: #0f172a !important; /* slate-900 */
+  color: #f1f5f9 !important; /* slate-100 */
+}
+
+[data-color-mode="dark"] .w-md-editor-preview,
+.dark .w-md-editor-preview {
+  background-color: #0f172a !important; /* slate-900 */
+}
+
+[data-color-mode="dark"] .wmde-markdown,
+.dark .wmde-markdown {
+  background-color: #0f172a !important; /* slate-900 */
+  color: #f1f5f9 !important; /* slate-100 */
+}
+
+/* 预览模式容器 - 让内容自动撑开 */
+.markdown-preview-container {
+  display: block !important;
+  height: auto !important;
+  min-height: 200px !important;
+  overflow: visible !important;
+  margin-top: 0 !important;
+  padding-top: 0 !important;
+  position: relative !important;
+  z-index: 0 !important;
+}
+
+.markdown-preview-container .w-md-editor {
+  height: auto !important;
+  min-height: 200px !important;
+  max-height: none !important;
+  display: block !important;
+  flex: none !important;
+  position: relative !important;
+  overflow: visible !important;
+  border: none !important;
+  box-shadow: none !important;
+  margin-top: 0 !important;
+  padding-top: 0 !important;
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+}
+
+.markdown-preview-container .w-md-editor-preview {
+  overflow: visible !important;
+  max-height: none !important;
+  height: auto !important;
+  min-height: 200px !important;
+  flex: none !important;
+  display: block !important;
+  padding: 0 !important;
+  position: relative !important;
+  border: none !important;
+  box-shadow: none !important;
+  margin-top: 0 !important;
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+}
+
+.markdown-preview-container .w-md-editor-preview .wmde-markdown {
+  overflow: visible !important;
+  max-height: none !important;
+  height: auto !important;
+  min-height: auto !important;
+  display: block !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  margin-top: 0 !important;
+}
+
+/* 确保预览容器内的所有子元素都能正常显示 */
+.markdown-preview-container .w-md-editor > * {
+  height: auto !important;
+  min-height: auto !important;
+  max-height: none !important;
+}
+
+.markdown-preview-container .w-md-editor-preview > * {
+  height: auto !important;
+  min-height: auto !important;
+  max-height: none !important;
+}
+
+/* 自定义滚动条样式 */
+/* Webkit 浏览器 (Chrome, Safari, Edge) */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, rgba(156, 163, 175, 0.4) 0%, rgba(156, 163, 175, 0.6) 100%);
+  border-radius: 10px;
+  border: 2px solid transparent;
+  background-clip: padding-box;
+  transition: all 0.2s ease;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, rgba(156, 163, 175, 0.6) 0%, rgba(156, 163, 175, 0.8) 100%);
+  background-clip: padding-box;
+}
+
+/* 暗色模式 */
+.dark ::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, rgba(75, 85, 99, 0.5) 0%, rgba(75, 85, 99, 0.7) 100%);
+  background-clip: padding-box;
+}
+
+.dark ::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, rgba(75, 85, 99, 0.7) 0%, rgba(75, 85, 99, 0.9) 100%);
+  background-clip: padding-box;
+}
+
+/* 滚动条激活状态（仅 Webkit） */
+::-webkit-scrollbar-thumb:active {
+  background: linear-gradient(180deg, rgba(59, 130, 246, 0.7) 0%, rgba(59, 130, 246, 0.9) 100%);
+  background-clip: padding-box;
+}
+
+.dark ::-webkit-scrollbar-thumb:active {
+  background: linear-gradient(180deg, rgba(96, 165, 250, 0.7) 0%, rgba(96, 165, 250, 0.9) 100%);
+  background-clip: padding-box;
+}
+
+/* Firefox */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(156, 163, 175, 0.5) transparent;
+}
+
+.dark * {
+  scrollbar-color: rgba(75, 85, 99, 0.6) transparent;
+}
+
+/* Markdown 预览模式样式 - 有序列表 */
+.markdown-preview-container ol,
+.w-md-editor-preview ol,
+.wmde-markdown ol {
+  list-style-type: decimal !important;
+  padding-left: 1.5rem !important;
+  margin: 1rem 0 !important;
+  counter-reset: list-counter;
+}
+
+.markdown-preview-container ol li,
+.w-md-editor-preview ol li,
+.wmde-markdown ol li {
+  display: list-item !important;
+  list-style-type: decimal !important;
+  padding-left: 0.5rem !important;
+  margin: 0.5rem 0 !important;
+  color: inherit !important;
+}/* 无序列表样式 */
+.markdown-preview-container ul,
+.w-md-editor-preview ul,
+.wmde-markdown ul {
+  list-style-type: disc !important;
+  padding-left: 1.5rem !important;
+  margin: 1rem 0 !important;
+}
+
+.markdown-preview-container ul li,
+.w-md-editor-preview ul li,
+.wmde-markdown ul li {
+  display: list-item !important;
+  list-style-type: disc !important;
+  padding-left: 0.5rem !important;
+  margin: 0.5rem 0 !important;
+  color: inherit !important;
+}

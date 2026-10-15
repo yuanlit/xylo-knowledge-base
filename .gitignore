@@ -1,0 +1,52 @@
+# Dependencies and package-manager caches
+/node_modules/
+/.npm/
+/yarn.lock
+/pnpm-lock.yaml
+/bun.lock
+/bun.lockb
+
+# Build output, test results, and caches
+/dist-extension/
+/dist/
+/build/
+/out/
+/.next*/
+/coverage/
+/test-results/
+/playwright-report/
+/.cache/
+/.vite/
+*.tsbuildinfo
+
+# Generated offline companion assets (prepared during install/build)
+/public/companion/runtime.js
+/public/companion/live2d.js
+/public/companion/model.js
+/public/companion/model-*.js
+/public/companion/OH-MY-LIVE2D-LICENSE.txt
+
+# Local configuration, credentials, and editor files
+.env*
+!.env.example
+/.vscode/
+/.idea/
+.DS_Store
+Thumbs.db
+Desktop.ini
+*.pem
+*.key
+*.local
+*.log
+*.tmp
+*.swp
+*.swo
+
+# Personal library data is never part of extension releases.
+/docs/
+/assets/images/
+.xylo-system/
+*.db
+*.db-*
+*.sqlite
+*.sqlite3

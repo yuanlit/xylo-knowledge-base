@@ -1,0 +1,33 @@
+{
+  "manifest_version": 3,
+  "name": "Xylo 本地知识库",
+  "version": "0.1.0",
+  "description": "本地文件管理、Markdown 编辑与多类型预览",
+  "icons": {
+    "16": "icons/icon-16.png",
+    "32": "icons/icon-32.png",
+    "48": "icons/icon-48.png",
+    "128": "icons/icon-128.png"
+  },
+  "action": {
+    "default_title": "打开 Xylo 本地知识库",
+    "default_icon": {
+      "16": "icons/icon-16.png",
+      "32": "icons/icon-32.png",
+      "48": "icons/icon-48.png",
+      "128": "icons/icon-128.png"
+    }
+  },
+  "background": {
+    "service_worker": "background.js",
+    "type": "module"
+  },
+  "permissions": ["tabs"],
+  "sandbox": {
+    "pages": ["sandbox.html", "companion.html"]
+  },
+  "content_security_policy": {
+    "extension_pages": "script-src 'self' 'wasm-unsafe-eval'; object-src 'self'",
+    "sandbox": "sandbox allow-scripts allow-forms allow-modals allow-pointer-lock; script-src 'self' 'unsafe-inline' 'unsafe-eval'; child-src 'self' data: blob:;"
+  }
+}
